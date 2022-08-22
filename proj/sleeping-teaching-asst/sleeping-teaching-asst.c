@@ -26,5 +26,11 @@ int main(int argc, char* argv[]) {
         exit(EXIT_FAILURE);
     }
     students = atoi(argv[1]);
+    int student_id[students];
     printf("Created %i students\n", students);
+    for (int i = 0; i < students; i++)
+        student_id[i] = i + 1;
+
+    for (int i = 0; i < students; i++) 
+        printf("student: %i | id: %i\n", i, student_id[i]);
 }
