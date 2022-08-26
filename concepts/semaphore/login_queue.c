@@ -5,21 +5,23 @@
 #include <string.h>
 #include <semaphore.h>
 
-#define THREAD_NUM 4
+#define THREAD_NUM 16
 
 sem_t *semaphore;
 
 void* routine(void* args) {
+    printf("(%d) Waiting in the login queue\n", *(int*)args);
     sem_wait(semaphore);
-    sleep(1);
-    printf("Hello from thread %d\n", *(int*)args);
+    printf("(%d) Logged in\n", *(int*)args);
+    sleep(rand() % 5 + 1);
+    printf("(%d) Logged out\n", *(int*)args);
     sem_post(semaphore);
     free(args);
 }
 
 int main(int argc, char *argv[]) {
     pthread_t th[THREAD_NUM];
-    sem_open("/semaphore", O_CREAT, 0644, 4);
+    sem_open("/semaphore", O_CREAT, 0644, 32);
     int i;
     for (i = 0; i < THREAD_NUM; i++) {
         int* a = malloc(sizeof(int));
